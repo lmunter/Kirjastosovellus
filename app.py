@@ -11,6 +11,7 @@ if __name__ == "__main__":
         else:
                 port = 3000
 
+        print("port: %d", (port,))
         app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///postgres"
         db = SQLAlchemy(app)
 
