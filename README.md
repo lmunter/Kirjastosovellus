@@ -7,3 +7,4 @@ Valmiina:
 Sovelluksen pohja.
 Työn alla:
 Käyttäjien tallentaminen tietokantaan ja istunnot.
+Sovellusta voi kokeilla sivulla https://kirjastosovellus.herokuapp.com/
