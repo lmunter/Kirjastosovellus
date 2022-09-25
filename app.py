@@ -3,6 +3,7 @@ from flask import render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 
+app = Flask(__name__)
 if __name__ == "__main__":
         ON_HEROKU = os.environ.get("ON_HEROKU")
         if ON_HEROKU:
@@ -10,7 +11,6 @@ if __name__ == "__main__":
         else:
                 port = 3000
 
-        app = Flask(__name__)
         app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///postgres"
         db = SQLAlchemy(app)
 
