@@ -1,21 +1,10 @@
 from flask import Flask
 from flask import render_template, request
 from flask_sqlalchemy import SQLAlchemy
-import os
 
 app = Flask(__name__)
-if __name__ == "__main__":
-        ON_HEROKU = os.environ.get("ON_HEROKU")
-        if ON_HEROKU:
-                port = int(os.environ.get("ON_HEROKU"))
-        else:
-                port = 3000
-
-        print("port: %d", (port,))
-        app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///postgres"
-        db = SQLAlchemy(app)
-
-        app.run(port=port)
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///postgres"
+db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
