@@ -1,1 +1,1 @@
-web: flask run -h localhost -p 3000
+web: flask run -h localhost -p $PORT
