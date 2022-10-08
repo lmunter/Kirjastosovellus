@@ -4,7 +4,7 @@ Tässä sovelluksessa käyttäjät voivat etsiä, varata, lainata ja palauttaa k
 Lainoja voi myös pidentää.
 Ylläpitäjät voivat antaa muistutuksia myöhästyneistä kirjoista ja asettaa myöhästymislaskuja tarpeen vaatiessa.
 Valmiina:
-Sovelluksen pohja.
+Sovelluksen pohja. Käyttäjien kirjautuminen.
 Työn alla:
-Käyttäjien tallentaminen tietokantaan ja istunnot.
+Kirjojen hakeminen tietokannasta.
 Sovellusta voi kokeilla sivulla https://kirjastosovellus.herokuapp.com/
