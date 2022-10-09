@@ -6,6 +6,7 @@ from os import getenv
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("SOVELLUS_DB_URL")
+print(app.config)
 db = SQLAlchemy(app)
 app.secret_key = getenv("SECRET_KEY")
 
