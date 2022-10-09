@@ -10,6 +10,7 @@ print(db_url)
 if db_url.startswith("postgres://"):
         print("korvataan url")
         db_url.replace("postgres://", "postgresql://")
+        db_url = "postgresql" + db_url[8:]
 print(db_url)
 #tämä on herokun bugin kiertämistä varten
 app.config["SQLALCHEMY_DATABASE_URI"] = db_url
