@@ -5,8 +5,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from os import getenv
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv("SOVELLUS_DB_URL")
-print(app.config)
+db_url = getenv("DATABASE_URL")
+if db_url.startswith("postgres:"):
+        db_url.replace("postgres", "postgresql")
+#tämä on herokun bugin kiertämistä varten
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 db = SQLAlchemy(app)
 app.secret_key = getenv("SECRET_KEY")
 
