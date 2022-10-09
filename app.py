@@ -6,8 +6,10 @@ from os import getenv
 
 app = Flask(__name__)
 db_url = getenv("DATABASE_URL")
+print(db_url)
 if db_url.startswith("postgres://"):
-        db_url.replace("postgres://", "postgresql://", 1)
+        print("korvataan url")
+        db_url.replace("postgres://", "postgresql://")
 print(db_url)
 #tämä on herokun bugin kiertämistä varten
 app.config["SQLALCHEMY_DATABASE_URI"] = db_url
