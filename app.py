@@ -60,15 +60,19 @@ def luotunnus():
 def luotunnus_varmistus():
         name = request.form["name"]
         password = request.form["password"]
-        salasalasana = generate_password_hash(password)
-        sql = "SELECT id FROM Users WHERE username=:name"
-        result = db.session.execute(sql, {"name":name})
-        user = result.fetchone()
-        if not user:
-                sql = "INSERT INTO Users (username, password) VALUES (:username, :password)"
-                db.session.execute(sql, {"username":name, "password":salasalasana})
-                db.session.commit()
-                return redirect("/login")
+        password2 = request.form["password2"]
+        if password == password2:
+                salasalasana = generate_password_hash(password)
+                sql = "SELECT id FROM Users WHERE username=:name"
+                result = db.session.execute(sql, {"name":name})
+                user = result.fetchone()
+                if not user:
+                        sql = "INSERT INTO Users (username, password) VALUES (:username, :password)"
+                        db.session.execute(sql, {"username":name, "password":salasalasana})
+                        db.session.commit()
+                        return redirect("/login")
+                else:
+                        return redirect("/luotunnus")
         else:
                 return redirect("/luotunnus")
 
