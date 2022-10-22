@@ -1,5 +1,12 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
 <title>Kirjasto</title>
-Moikka, {{ name }}!
+Olet kirjautunut nimellä {{ name }}.
 <br>
 <a href="/logout">Kirjaudu ulos</a>
+<hr>
+<a href="/hae">Etsi kirjoja</a>
+<hr>
+{% for kirja in kirjat %}
+{{ kirja.title }}<br>Kirjailija: {{ kirja.author }}<br>Julkaisuvuosi: {{ kirja.year }}<hr>
+{% endfor %}

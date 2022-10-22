@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Kirjasto</title>
+<h1>Hae kirjoja</h1>
+<br>
+<p>
+<a href="/logout">Kirjaudu ulos</a>
+<br>
+<p>
+Etsi kirjan tai kirjailijan nimellä
+<br>
+<p>
+<form action="/haehakusanalla" method="POST">
+<input type="text" name="hakusana">
+<br>
+<p>
+<input type="submit" value="Hae">
+</form>
+<hr>
+{% for kirja in kirjat %}
+{{ kirja.title }}<br>Kirjailija:{{ kirja.author }}<br>Julkaisuvuosi:{{ kirja.year }}<hr>
+{% endfor %}
