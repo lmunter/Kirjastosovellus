@@ -3,10 +3,16 @@
 <h1>Luo tunnus</h1>
 <p>
 <form action="/luotunnus_varmistus" method="POST">
-Käyttäjänimi: <input type="text" name="name">
+<label for="username">Käyttäjänimi:</label>
+<input type="text" id="username" name="name">
 <br>
 <p>
-Salasana: <input type="text" name="password">
+<label for="pass">Salasana (vähintään 8 merkkiä):</label>
+<input type="password" id="pass" name="password" minlength="8">
+<br>
+<p>
+<label for="pass2">Kirjoita salasana uudestaan:</label>
+<input type="password" id="pass2" name="password2">
 <br>
 <p>
 <input type="submit" value="Luo tunnus">
