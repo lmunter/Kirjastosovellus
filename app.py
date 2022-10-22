@@ -30,9 +30,27 @@ def login():
                 salasalasana = user.password
                 if check_password_hash(salasalasana, password):
                         session["username"] = name
-                        return render_template("login.html", name=name)
+                        sql = "SELECT title, author, year FROM Books LIMIT 10"
+                        result = db.session.execute(sql)
+                        kirjat = result.fetchall()
+                        return render_template("login.html", name=name, kirjat=kirjat)
                 else:
                         return redirect("/")
+
+@app.route("/hae")
+def hae():
+        sql = "SELECT title, author, year FROM Books LIMIT 10"
+        result = db.session.execute(sql)
+        kirjat = result.fetchall()
+        return render_template("hae.html", kirjat=kirjat)
+
+@app.route("/haehakusanalla", methods=["POST"])
+def haehakusanalla():
+        hakusana = request.form["hakusana"]
+        sql = "SELECT title, author, year FROM Books WHERE title=:hakusana OR author=:hakusana LIMIT 10"
+        result = db.session.execute(sql, {"hakusana":hakusana})
+        kirjat = result.fetchall()
+        return render_template("/hae.html", kirjat=kirjat)
 
 @app.route("/luotunnus")
 def luotunnus():
