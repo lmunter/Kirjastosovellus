@@ -3,4 +3,10 @@
 {{ virhe }}
 <br>
 <p>
+{% if virhe_id == 1: %}
+<a href="/">Takaisin etusivulle</a>
+{% elif virhe_id == 2: %}
+<a href="/luotunnus">Takaisin rekisteröintisivulle</a>
+{% else %}
 <a href="/hae">Takaisin hakusivulle</a>
+{% endif %}
