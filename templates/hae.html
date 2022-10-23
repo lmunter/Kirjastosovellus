@@ -17,5 +17,12 @@ Etsi kirjan tai kirjailijan nimellä
 </form>
 <hr>
 {% for kirja in kirjat %}
-{{ kirja.title }}<br>Kirjailija:{{ kirja.author }}<br>Julkaisuvuosi:{{ kirja.year }}<hr>
+{{ kirja.title }}<br>Kirjailija: {{ kirja.author }}<br>Julkaisuvuosi: {{ kirja.year }}<br>
+{% if kirja.user_id is none: %}
+<a href="/lainaa?book_id={{ kirja.id }}">Lainaa kirja</a>
+{% elif kirja.user_id == käyttäjä: %}
+<a href="/palauta?book_id={{ kirja.id }}">Palauta kirja</a>
+{% else %}
+lainassa
+{% endif %}<hr>
 {% endfor %}
