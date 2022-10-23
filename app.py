@@ -25,7 +25,9 @@ def login():
         result = db.session.execute(sql, {"name":name})
         user = result.fetchone()
         if not user:
-                return redirect("/")
+                virhe = "Käyttäjänimi tai salasana oli väärin"
+                virhe_id = 1
+                return render_template("error.html", virhe=virhe, virhe_id=virhe_id)
         else:
                 salasalasana = user.password
                 if check_password_hash(salasalasana, password):
@@ -35,7 +37,9 @@ def login():
                         kirjat = result.fetchall()
                         return render_template("login.html", name=name, kirjat=kirjat)
                 else:
-                        return redirect("/")
+                        virhe = "Käyttäjänimi tai salasana oli väärin"
+                        virhe_id = 1
+                        return render_template("error.html", virhe=virhe, virhe_id=virhe_id)
 
 @app.route("/hae")
 def hae():
@@ -66,10 +70,12 @@ def palauta():
                         return redirect("/hae")
                 except:
                         virhe = "Palautus ei onnistunut"
-                        return render_template("/error.html", virhe=virhe)
+                        virhe_id = 3
+                        return render_template("/error.html", virhe=virhe, virhe_id=virhe_id)
         else:
                 virhe = "Palautus ei onnistunut"
-                return render_template("/error.html", virhe=virhe)
+                virhe_id = 3
+                return render_template("/error.html", virhe=virhe, virhe_id=virhe_id)
 
 @app.route("/lainaa")
 def lainaa():
@@ -83,10 +89,12 @@ def lainaa():
                         return redirect("/hae")
                 except:
                         virhe = "Lainaus ei onnistunut"
-                        return render_template("/error.html", virhe=virhe)
+                        virhe_id = 3
+                        return render_template("/error.html", virhe=virhe, virhe_id=virhe_id)
         else:
                 virhe = "Lainaus ei onnistunut"
-                return render_template("/error.html", virhe=virhe)
+                virhe_id = 3
+                return render_template("/error.html", virhe=virhe, virhe_id=virhe_id)
 
 @app.route("/luotunnus")
 def luotunnus():
@@ -108,9 +116,13 @@ def luotunnus_varmistus():
                         db.session.commit()
                         return redirect("/")
                 else:
-                        return redirect("/luotunnus")
+                        virhe = "Käyttäjänimi on varattu"
+                        virhe_id = 2
+                        return render_template("/error.html", virhe=virhe, virhe_id=virhe_id)
         else:
-                return redirect("/luotunnus")
+                virhe = "Salasanat eivät täsmää"
+                virhe_id = 2
+                return render_template("/error.html", virhe=virhe, virhe_id=virhe_id)
 
 @app.route("/logout")
 def logout():
