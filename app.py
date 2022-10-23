@@ -29,7 +29,7 @@ def login():
         else:
                 salasalasana = user.password
                 if check_password_hash(salasalasana, password):
-                        session["username"] = name
+                        session["username"] = user.id
                         sql = "SELECT title, author, year FROM Books LIMIT 10"
                         result = db.session.execute(sql)
                         kirjat = result.fetchall()
@@ -39,18 +39,54 @@ def login():
 
 @app.route("/hae")
 def hae():
-        sql = "SELECT title, author, year FROM Books LIMIT 10"
+        käyttäjä = session["username"]
+        sql = "SELECT B.id, B.title, B.author, B.year, L.user_id FROM Books B LEFT JOIN Loans L ON B.id=L.book_id LIMIT 10"
         result = db.session.execute(sql)
         kirjat = result.fetchall()
-        return render_template("hae.html", kirjat=kirjat)
+        return render_template("hae.html", kirjat=kirjat, käyttäjä=käyttäjä)
 
 @app.route("/haehakusanalla", methods=["POST"])
 def haehakusanalla():
+        käyttäjä = session["username"]
         hakusana = request.form["hakusana"]
-        sql = "SELECT title, author, year FROM Books WHERE title=:hakusana OR author=:hakusana LIMIT 10"
-        result = db.session.execute(sql, {"hakusana":hakusana})
+        sql = "SELECT B.id, B.title, B.author, B.year, L.user_id FROM Books B LEFT JOIN Loans L ON B.id=L.book_id WHERE (B.title LIKE :hakusana OR B.author LIKE :hakusana) LIMIT 10"
+        result = db.session.execute(sql, {"hakusana":"%"+hakusana+"%"})
         kirjat = result.fetchall()
-        return render_template("/hae.html", kirjat=kirjat)
+        return render_template("/hae.html", kirjat=kirjat, käyttäjä=käyttäjä)
+
+@app.route("/palauta")
+def palauta():
+        kirja = request.args.get("book_id")
+        käyttäjä = session["username"]
+        if kirja is not None:
+                try:
+                        sql = "DELETE FROM Loans WHERE book_id=:kirja AND user_id=:käyttäjä"
+                        db.session.execute(sql, {"kirja":kirja, "käyttäjä":käyttäjä})
+                        db.session.commit()
+                        return redirect("/hae")
+                except:
+                        virhe = "Palautus ei onnistunut"
+                        return render_template("/error.html", virhe=virhe)
+        else:
+                virhe = "Palautus ei onnistunut"
+                return render_template("/error.html", virhe=virhe)
+
+@app.route("/lainaa")
+def lainaa():
+        kirja = request.args.get("book_id")
+        käyttäjä = session["username"]
+        if kirja is not None:
+                try:
+                        sql = "INSERT INTO Loans (book_id, user_id) VALUES (:kirja, :käyttäjä)"
+                        db.session.execute(sql, {"kirja":kirja, "käyttäjä":käyttäjä})
+                        db.session.commit()
+                        return redirect("/hae")
+                except:
+                        virhe = "Lainaus ei onnistunut"
+                        return render_template("/error.html", virhe=virhe)
+        else:
+                virhe = "Lainaus ei onnistunut"
+                return render_template("/error.html", virhe=virhe)
 
 @app.route("/luotunnus")
 def luotunnus():
@@ -70,7 +106,7 @@ def luotunnus_varmistus():
                         sql = "INSERT INTO Users (username, password) VALUES (:username, :password)"
                         db.session.execute(sql, {"username":name, "password":salasalasana})
                         db.session.commit()
-                        return redirect("/login")
+                        return redirect("/")
                 else:
                         return redirect("/luotunnus")
         else:
